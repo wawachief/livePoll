@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang=fr>
+
+<head>
+    <meta charset="utf-8"/>
+    <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <title>{{titre}}</title>
+</head>
+
+<body>
+    <h1>Afficher une question</h1>
+    <form method="post" action="{{url_for('choixrep')}}" >
+    <p>Choisissez la question courante à afficher</p>
+    {{(liste_questions)}}
+    <p><input type="submit" value="Choisir la question" />
+    </form>
+</body>
+
+</html>

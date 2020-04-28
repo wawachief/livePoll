@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang=fr>
+
+<head>
+    <meta charset="utf-8"/>
+    <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <title>{{titre}}</title>
+</head>
+
+<body>
+    <h1>Sondage pour le live interactif</h1>
+    <form method="post" action="{{url_for('reponse')}}" >
+    <p>{{question}}</p>
+    <!-- les boutons radio partagent le même attribut "name" -->
+    {{(quizz)}}
+    <p><input type="hidden" value={{n}} name="n_quest" />
+    <p><input type="submit" value="Répondre" />
+    </form>
+</body>
+
+</html>

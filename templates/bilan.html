@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang=fr>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="refresh" content="3" />
+    <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/bilan.css')}}">
+    <title>Bilan</title>
+</head>
+
+<body>
+    <h1>{{question}}</h1>
+
+    <div class="bilan">
+    {{resultats}}
+    </div>
+
+<footer>
+    <p/><a href="{{url_for('bilan1')}}?q={{q}}">voir le bilan caché</a>   /    <a href="{{url_for('bilan')}}?q={{q}}">voir le bilan définitif</a>
+    <P/><a href="{{url_for('bilan1')}}?q={{q+1}}">voir le bilan suivant</a>   /   <a href="{{url_for('bilan1')}}?q={{q-1}}">voir le bilan précédent</a>
+</footer>
+</body>
+
+</html>

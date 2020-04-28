@@ -1,0 +1,16 @@
+body{
+    background-color : ghostwhite;
+    margin : auto;
+    width: 85%;
+}
+
+h1{
+    text-align : center;
+    background-color : burlywood;
+    color : black;
+    border-radius: 5px;
+}
+
+ul {
+    padding:0px;
+}
