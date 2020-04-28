@@ -5,7 +5,7 @@ app = Flask(__name__)
 questions = {
     # No : [ Question, [(code, reponse), ( , )...], QCU?QCM]
     1 : ["Quelle est la couleur du cheval blanc d'henri 4 ?", 
-        [('A', "Réponse A"), ('B', "Réponse B"), ('C', "Réponse C")],
+        [('A', "aux \( \dfrac 2 3 \) blanc"), ('B', "Gris"), ('C', "bleu")],
         True ],
     2 : ["Quelle est votre matiere préférée ?",
         [('A', "Les mathématiques"), ('B', "La fizik"), ('C', "La SVT"), ('D', "La filo")],
@@ -23,7 +23,7 @@ def ajoute_reponse(q, r):
     """Ajoute une reponse r à la question q"""
     if not q in reponses:
         reponses[q] = dict()
-    reponses[q][r] = reponse[q].get(r, 0) + 1
+    reponses[q][r] = reponses[q].get(r, 0) + 1
 
 @app.route('/index.html', methods=["GET"])
 def index():
@@ -96,8 +96,11 @@ def reponse():
 @app.route('/bilan.html', methods=["GET"])
 def bilan():
     """Bilan final avec reponses et scores"""
-    n_quest_form = request.args
-    n_quest = int(n_quest_form["q"])
+    try:
+        n_quest_form = request.args
+        n_quest = int(n_quest_form["q"])
+    except:
+        n_quest = 1
     if n_quest in reponses:
         bilstr = '<ul>'
         for q in questions[n_quest][1]:
@@ -110,7 +113,8 @@ def bilan():
     else:
         bilstr = "<p>Pas de réponses encore à la question</p>"
         questionstr = questions[n_quest][0] if n_quest in questions else "Plus de question !!"
-    return render_template('bilan.html', q=n_quest, question=questionstr, resultats=Markup(bilstr))
+    return render_template('bilan.html', q=n_quest, question=questionstr, 
+        resultats=Markup(bilstr), refresh="")
 
 @app.route('/bilan1.html', methods=["GET"])
 def bilan1():
@@ -133,7 +137,8 @@ def bilan1():
     else:
         bilstr = "<p>Pas de réponses encore à la question</p>"
         questionstr = questions[n_quest][0] if n_quest in questions else "Plus de question !!"
-    return render_template('bilan.html', q=n_quest, question=questionstr, resultats=Markup(bilstr))
+    return render_template('bilan.html', q=n_quest, question=questionstr, 
+        resultats=Markup(bilstr), refresh=Markup('<meta http-equiv="refresh" content="3" />'))
 
 app.run(host= '0.0.0.0')
 
