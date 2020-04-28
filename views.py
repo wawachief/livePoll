@@ -23,10 +23,7 @@ def ajoute_reponse(q, r):
     """Ajoute une reponse r à la question q"""
     if not q in reponses:
         reponses[q] = dict()
-    if r in reponses[q]:
-        reponses[q][r] += 1
-    else:
-        reponses[q][r] = 1
+    reponses[q][r] = reponse[q].get(r, 0) + 1
 
 @app.route('/index.html', methods=["GET"])
 def index():
@@ -111,7 +108,7 @@ def bilan():
         bilstr += '</ul>'
         questionstr = questions[n_quest][0]
     else:
-        bilstr = "<p>Pas de réponses encore à la question"
+        bilstr = "<p>Pas de réponses encore à la question</p>"
         questionstr = questions[n_quest][0] if n_quest in questions else "Plus de question !!"
     return render_template('bilan.html', q=n_quest, question=questionstr, resultats=Markup(bilstr))
 
@@ -134,10 +131,10 @@ def bilan1():
             questionstr = questions[n_quest][0]
         bilstr += "</ul>"
     else:
-        bilstr = "<p>Pas de réponses encore à la question"
+        bilstr = "<p>Pas de réponses encore à la question</p>"
         questionstr = questions[n_quest][0] if n_quest in questions else "Plus de question !!"
     return render_template('bilan.html', q=n_quest, question=questionstr, resultats=Markup(bilstr))
 
-app.run(debug=False)
+app.run(host= '0.0.0.0')
 
-# http://localhost:5000
+# http://ip_serveur:5000
