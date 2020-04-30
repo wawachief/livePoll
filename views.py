@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Markup
+from flask import Flask, render_template, request, Markup, redirect, url_for
 
 app = Flask(__name__)
 
@@ -119,8 +119,11 @@ def bilan():
 @app.route('/bilan1.html', methods=["GET"])
 def bilan1():
     """Bilan intermediaire avec reponses masquees"""
-    n_quest_form = request.args
-    n_quest = int(n_quest_form["q"])
+    try:
+        n_quest_form = request.args
+        n_quest = int(n_quest_form["q"])
+    except:
+        n_quest = 1
     if n_quest in reponses:
         replist = []
         for q in questions[n_quest][1]:
@@ -139,6 +142,18 @@ def bilan1():
         questionstr = questions[n_quest][0] if n_quest in questions else "Plus de question !!"
     return render_template('bilan.html', q=n_quest, question=questionstr, 
         resultats=Markup(bilstr), refresh=Markup('<meta http-equiv="refresh" content="3" />'))
+
+@app.route('/bilan2.html', methods=["GET"])
+def bilan2():
+    """Bilan intermediaire avec reponses masquees"""
+    try:
+        n_quest_form = request.args
+        n_quest = int(n_quest_form["q"])
+    except:
+        n_quest = 0
+    if n_quest in reponses:
+        reponses[n_quest].clear()
+    return redirect(url_for('bilan1') + f"?q={n_quest}")
 
 app.run(host= '0.0.0.0')
 

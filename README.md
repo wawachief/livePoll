@@ -11,7 +11,7 @@ The web server listens to http://your_server:5000/
 There are three web pages :
 - http://your_server:5000/index.html : address to give to your students. The questions will appear there
 - http://your_server:5000/admin.html : the admin page allows you to select the active question
-- http://your_server:5000/bilan.html : to see the results of the polls. The green backgroud allows incrustation inside OBS
+- http://your_server:5000/bilan1.html?q=1 : to see the results of the polls. The green backgroud allows incrustation inside OBS
 
 # Todo
 Lots of things !
