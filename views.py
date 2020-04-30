@@ -4,15 +4,18 @@ app = Flask(__name__)
 
 questions = {
     # No : [ Question, [(code, reponse), ( , )...], QCU?QCM]
-    1 : ["Quelle est la couleur du cheval blanc d'henri 4 ?", 
-        [('A', "aux \( \dfrac 2 3 \) blanc"), ('B', "Gris"), ('C', "bleu")],
-        True ],
-    2 : ["Quelle est votre matiere préférée ?",
-        [('A', "Les mathématiques"), ('B', "La fizik"), ('C', "La SVT"), ('D', "La filo")],
-        False],
-    3 : ["Les maths C mieux", 
-        [('V', "VRAI"), ('F', "FAUX")],
-        True]
+    1 : ["Question Vrai / Faux", 
+		[('A', "Vrai"), ('B', "Faux")],
+		True],
+	2 : ["Question Oui / Non", 
+		[('A', "Oui"), ('B', "Non")],
+		True],
+	3 : ["Choix unique A B C D", 
+		[('A', "Réponse A"), ('B', "Réponse B"), ('C', "Réponse C"), ('D', "Réponse D")],
+		True],
+	4 : ["Choix multiple QCM A B C D", 
+		[('A', "Réponse A"), ('B', "Réponse B"), ('C', "Réponse C"), ('D', "Réponse D")],
+		False]
 }
 
 reponses = dict()
