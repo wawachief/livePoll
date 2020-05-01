@@ -105,57 +105,42 @@ def reponse():
 # Bilans 
 #
 
-@app.route('/bilan.html', methods=["GET"])
+@app.route('/bilan1', methods=["GET"])
+@app.route('/bilan', methods=["GET"])
 def bilan():
-    """Bilan final avec reponses et scores"""
+    """Bilan final avec scores """
     try:
         n_quest_form = request.args
         n_quest = int(n_quest_form["q"])
     except:
         n_quest = 1
+    # Reponses masquees
+    hidden =  "bilan1" in str(request.url)
+    refresh_cmd = '<meta http-equiv="refresh" content="3" />' if hidden else ''
+
     if n_quest in reponses:
+        replist = []
         bilstr = '<ul>'
         for q in questions[n_quest][1]:
-            if q[0] in reponses[n_quest] :
-                bilstr += f"<li>{q[1]} : {reponses[n_quest][q[0]]}</li>"
+            nb_reponses = reponses[n_quest].get(q[0], 0)
+            if hidden : 
+                replist.append(nb_reponses)
             else:
-                bilstr += f"<li>{q[1]} : 0</li>"
+                bilstr += f"<li>{q[1]} : {nb_reponses}</li>"
+        if hidden:
+            replist.sort()
+            for r in replist:
+                bilstr += f"<li>{r}</li>"
+                questionstr = questions[n_quest][0]
         bilstr += '</ul>'
         questionstr = questions[n_quest][0]
     else:
         bilstr = "<p>Pas de réponses encore à la question</p>"
         questionstr = questions[n_quest][0] if n_quest in questions else "Plus de question !!"
     return render_template('bilan.html', q=n_quest, question=questionstr, 
-        resultats=Markup(bilstr), refresh="")
+        resultats=Markup(bilstr), refresh=Markup(refresh_cmd))
 
-@app.route('/bilan1.html', methods=["GET"])
-def bilan1():
-    """Bilan intermediaire avec reponses masquees"""
-    try:
-        n_quest_form = request.args
-        n_quest = int(n_quest_form["q"])
-    except:
-        n_quest = 1
-    if n_quest in reponses:
-        replist = []
-        for q in questions[n_quest][1]:
-            if q[0] in reponses[n_quest] :
-                replist.append(reponses[n_quest][q[0]])
-            else:
-                replist.append(0)
-        replist.sort()
-        bilstr = "<ul>"
-        for r in replist:
-            bilstr += f"<li>{r}</li>"
-            questionstr = questions[n_quest][0]
-        bilstr += "</ul>"
-    else:
-        bilstr = "<p>Pas de réponses encore à la question</p>"
-        questionstr = questions[n_quest][0] if n_quest in questions else "Plus de question !!"
-    return render_template('bilan.html', q=n_quest, question=questionstr, 
-        resultats=Markup(bilstr), refresh=Markup('<meta http-equiv="refresh" content="3" />'))
-
-@app.route('/bilan2.html', methods=["GET"])
+@app.route('/bilan2', methods=["GET"])
 def bilan2():
     """Bilan intermediaire avec reponses masquees"""
     try:
@@ -165,7 +150,7 @@ def bilan2():
         n_quest = 0
     if n_quest in reponses:
         reponses[n_quest].clear()
-    return redirect(url_for('bilan1') + f"?q={n_quest}")
+    return redirect(url_for('bilan') + f"1?q={n_quest}")
 
 app.run(host= '0.0.0.0')
 

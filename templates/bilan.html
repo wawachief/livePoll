@@ -17,8 +17,8 @@
     </div>
 
 <footer>
-    <p><a href="{{url_for('bilan1')}}?q={{q}}">voir le bilan caché</a> &nbsp;&nbsp;&nbsp;   / &nbsp;&nbsp;&nbsp;<a href="{{url_for('bilan')}}?q={{q}}">voir le bilan définitif</a></p>
-    <p><a href="{{url_for('bilan1')}}?q={{q+1}}">voir le bilan suivant</a>&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;<a href="{{url_for('bilan1')}}?q={{q-1}}">voir le bilan précédent</a></p>
+    <p><a href="{{url_for('bilan')}}1?q={{q}}">voir le bilan caché</a> &nbsp;&nbsp;&nbsp;   / &nbsp;&nbsp;&nbsp;<a href="{{url_for('bilan')}}?q={{q}}">voir le bilan définitif</a></p>
+    <p><a href="{{url_for('bilan')}}1?q={{q+1}}">voir le bilan suivant</a>&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;<a href="{{url_for('bilan')}}1?q={{q-1}}">voir le bilan précédent</a></p>
     <p><a href="{{url_for('bilan2')}}?q={{q}}">Réinitialiser le bilan à 0</a></p>
 </footer>
 </body>
