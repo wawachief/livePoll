@@ -1,3 +1,7 @@
+# Auteur : Olivier Lecluse
+# Mai 2020
+# Licence GPL v3 : https://www.gnu.org/licenses/quick-guide-gplv3.fr.html
+
 from flask import Flask, render_template, request, Markup, redirect, url_for
 
 app = Flask(__name__)
@@ -21,6 +25,7 @@ questions = {
 reponses = dict()
 
 q_en_cours = 0
+new_quest = False
 
 def ajoute_reponse(q, r):
     """Ajoute une reponse r à la question q"""
@@ -28,6 +33,7 @@ def ajoute_reponse(q, r):
         reponses[q] = dict()
     reponses[q][r] = reponses[q].get(r, 0) + 1
 
+@app.route('/', methods=["GET"])
 @app.route('/index.html', methods=["GET"])
 def index():
     try:
@@ -35,10 +41,10 @@ def index():
         n_quest = int(n_quest_form["q"])
     except:
         n_quest = 0
-    if q_en_cours == 0 or q_en_cours == n_quest:
+    if q_en_cours == 0 or (q_en_cours == n_quest and not new_quest):
         return render_template('index.html')
     else:
-        return render_template('redirect.html')
+        return redirect(url_for('formulaire'))
 
 #
 # Choix nouvelle question
@@ -58,9 +64,10 @@ def admin():
 
 @app.route('/choixrep.html', methods=["POST"])
 def choixrep():
-    global q_en_cours
+    global q_en_cours, new_quest
     reponse = request.form
     q_en_cours = int(reponse["n_quest"])
+    new_quest = True
     return render_template('choixrep.html')
 
 #
@@ -79,6 +86,8 @@ def formulaire():
 
 @app.route('/reponse.html', methods=["POST"])
 def reponse():
+    global new_quest
+    new_quest = False
     reponse = request.form
     q = int(reponse["n_quest"])
     if questions[q][2]:
