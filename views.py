@@ -1,6 +1,6 @@
 # Auteur : Olivier Lecluse
 # Mai 2020
-# Licence GPL v3 : https://www.gnu.org/licenses/quick-guide-gplv3.fr.html
+# Licence GPL-3.0-or-later
 
 from flask import Flask, render_template, request, Markup, redirect, url_for
 
