@@ -8,17 +8,18 @@ app = Flask(__name__)
 
 questions = {
     # No : [ Question, [(code, reponse), ( , )...], QCU?QCM]
+    # False : QCM / True : QCU
     1 : ["Question Vrai / Faux", 
-		[('A', "Vrai"), ('B', "Faux")],
+		["Vrai", "Faux"],
 		True],
 	2 : ["Question Oui / Non", 
-		[('A', "Oui"), ('B', "Non")],
+		["Oui", "Non"],
 		True],
 	3 : ["Choix unique A B C D", 
-		[('A', "Réponse A"), ('B', "Réponse B"), ('C', "Réponse C"), ('D', "Réponse D")],
+		["Réponse A", "Réponse B", "Réponse C", "Réponse D"],
 		True],
 	4 : ["Choix multiple QCM A B C D", 
-		[('A', "Réponse A"), ('B', "Réponse B"), ('C', "Réponse C"), ('D', "Réponse D")],
+		["Réponse A", "Réponse B", "Réponse C", "Réponse D"],
 		False]
 }
 
@@ -77,11 +78,11 @@ def choixrep():
 @app.route('/formulaire.html')
 def formulaire():
     quizzstr = ''
-    for q in questions[q_en_cours][1]:
+    for (nq,q) in enumerate(questions[q_en_cours][1]):
         if questions[q_en_cours][2]:
-            quizzstr += f'<input type="radio" name="repcu" value="{q[0]}" id="rep{q[0]}" /> <label for="rep{q[0]}">{q[1]}</label><br />'
+            quizzstr += f'<input type="radio" name="repcu" value="{nq}" id="rep{nq}" /> <label for="rep{nq}">{q}</label><br />'
         else:
-            quizzstr += f'<input type="checkbox" name="{q[0]}" id="rep{q[0]}" /> <label for="rep{q[0]}">{q[1]}</label><br />'
+            quizzstr += f'<input type="checkbox" name="{nq}" id="rep{nq}" /> <label for="rep{nq}">{q}</label><br />'
     return render_template('formulaire.html', n = q_en_cours, question=questions[q_en_cours][0], quizz=Markup(quizzstr))
 
 @app.route('/reponse.html', methods=["POST"])
@@ -90,15 +91,17 @@ def reponse():
     new_quest = False
     reponse = request.form
     q = int(reponse["n_quest"])
+    # Question de type QCU
     if questions[q][2]:
-        n = reponse["repcu"]
+        n = int(reponse["repcu"])
         ajoute_reponse(q, n)
     else:
+        # Question de type QCM
         n = []
-        for r in questions[q][1]:
-            if r[0] in reponse:
-                n.append(r[0])
-                ajoute_reponse(q, r[0])
+        for (nr,r) in enumerate(questions[q][1]):
+            if str(nr) in reponse:
+                n.append(nr)
+                ajoute_reponse(q, nr)
     return render_template('reponse.html', reponse=n, question = questions[q][0], n_quest=q)
 
 #
@@ -121,12 +124,12 @@ def bilan():
     if n_quest in reponses:
         replist = []
         bilstr = '<ul>'
-        for q in questions[n_quest][1]:
-            nb_reponses = reponses[n_quest].get(q[0], 0)
+        for (nq,q) in enumerate(questions[n_quest][1]):
+            nb_reponses = reponses[n_quest].get(nq, 0)
             if hidden : 
                 replist.append(nb_reponses)
             else:
-                bilstr += f"<li>{q[1]} : {nb_reponses}</li>"
+                bilstr += f"<li>{q} : {nb_reponses}</li>"
         if hidden:
             replist.sort()
             for r in replist:
