@@ -110,7 +110,7 @@ def formulaire():
             quizzstr += f'<input type="radio" name="repcu" value="{nq}" id="rep{nq}" /> <label for="rep{nq}">{q}</label><br />'
         else:
             quizzstr += f'<input type="checkbox" name="{nq}" id="rep{nq}" /> <label for="rep{nq}">{q}</label><br />'
-    return render_template('formulaire.html', n = q_en_cours, question=questions[q_en_cours][0], quizz=Markup(quizzstr))
+    return render_template('formulaire.html', n = q_en_cours, question=Markup(questions[q_en_cours][0]), quizz=Markup(quizzstr))
 
 @app.route('/reponse.html', methods=["POST"])
 def reponse():
@@ -129,7 +129,7 @@ def reponse():
             if str(nr) in reponse:
                 n.append(nr)
                 ajoute_reponse(q, nr)
-    return render_template('reponse.html', reponse=n, question = questions[q][0], n_quest=q)
+    return render_template('reponse.html', reponse=n, question = Markup(questions[q][0]), n_quest=q)
 
 #
 # Bilans 
@@ -205,7 +205,7 @@ def bilan():
     qrcode_html = ""
     if qrcode_enable:
         qrcode_html = f"<img src=\"{url_for('qrcode_png')}\" class=\"qrcode\" >"
-    return render_template('bilan.html', q = n_quest, question = questionstr,
+    return render_template('bilan.html', q = n_quest, question = Markup(questionstr),
         qrcode = Markup(qrcode_html), quest = Markup(quest_html), hide = hidden)
 
 
