@@ -163,17 +163,20 @@ def bilan_list():
     # Liste des reponses 
     if n_quest in reponses:
         replist = []
-        bilstr = '<ul>'
+        bilstr = '<ol>' if (hidden!=1 and quest_enable) else '<ul>'
         for (nq,q) in enumerate(questions[n_quest][1]):
             nb_reponses = reponses[n_quest].get(nq, 0)
             if hidden == 1: 
                 replist.append(nb_reponses)
             else:
-                bilstr += f"<li>{q} : {nb_reponses}</li>"
+                if quest_enable : 
+                    bilstr += f"<li> : {nb_reponses}</li>"
+                else:
+                    bilstr += f"<li>{q} : {nb_reponses}</li>"
         if hidden == 1:
             replist.sort()
             for r in replist:
-                bilstr += f"<li>{r}</li>"
+                bilstr += f"<li>??? : {r}</li>"
         bilstr += '</ul>'
     else:
         bilstr = "<p>Pas de réponses encore à la question</p>"
@@ -196,10 +199,10 @@ def bilan():
     # Rappel de la question
     quest_html = ""
     if quest_enable and n_quest in questions:
-        quest_html = f"<ul>"
+        quest_html = f"<ol>"
         for r in questions[n_quest][1]:
             quest_html += f"<li>{r}</li>"
-        quest_html += "</ul>"
+        quest_html += "</ol>"
     
     # Affichage qrcode
     qrcode_html = ""
@@ -225,7 +228,7 @@ def bilan2():
     qr =  "qrtoggle"   in str(request.url)
     rep =  "reptoggle" in str(request.url)
     
-    n_quest, _ = recupere_params_get(request)
+    n_quest, hide = recupere_params_get(request)
 
     if qr:
         qrcode_enable = not qrcode_enable
@@ -233,7 +236,7 @@ def bilan2():
         quest_enable = not quest_enable
     if bilan2 and n_quest in reponses:
         reponses[n_quest].clear()
-    return redirect(url_for('bilan') + f"?q={n_quest}&hidden=1")
+    return redirect(url_for('bilan') + f"?q={n_quest}&hidden={hide}")
 
 #
 # Lancement de l'application

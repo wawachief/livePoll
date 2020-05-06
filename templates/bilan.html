@@ -26,7 +26,7 @@
         <p><a href="{{url_for('bilan')}}?q={{q}}&hidden=1">voir le bilan caché</a> &nbsp;&nbsp;&nbsp;   / &nbsp;&nbsp;&nbsp;<a href="{{url_for('bilan')}}?q={{q}}&hidden=0">voir le bilan définitif</a></p>
         <p><a href="{{url_for('bilan')}}?q={{q+1}}&hidden=1">voir le bilan suivant</a>&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;<a href="{{url_for('bilan')}}?q={{q-1}}&hidden=1">voir le bilan précédent</a></p>
         <p><a href="{{url_for('bilan2')}}?q={{q}}">Réinitialiser le bilan à 0</a></p>
-        <p><a href="/bilan_qrtoggle?q={{q}}">afficher/cacher qrcode</a> &nbsp;&nbsp;&nbsp;   / &nbsp;&nbsp;&nbsp; <a href="/bilan_reptoggle?q={{q}}">afficher/cacher reponses</a></p>
+        <p><a href="/bilan_qrtoggle?q={{q}}">afficher/cacher qrcode</a> &nbsp;&nbsp;&nbsp;   / &nbsp;&nbsp;&nbsp; <a href="/bilan_reptoggle?q={{q}}&hidden={{hide}}">afficher/cacher reponses</a></p>
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
