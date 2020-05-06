@@ -32,9 +32,6 @@ div.question {
     clear: right;
     margin-top: 150px;
 }
-li {
-    margin-left : 20px;
-}
 img.qrcode {
     float: right;
     border-radius: 5px;
@@ -48,4 +45,5 @@ footer {
 }
 ul {
     padding:0px;
+    margin-left : 20px;
 }
